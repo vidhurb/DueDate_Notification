@@ -1,26 +1,26 @@
 #! /usr/bin/python3 
 import openpyxl
+from openpyxl import Workbook
 from datetime import datetime
 
+wb_fileName = 'Forum_DB.xlsx'
 #In the First
 def main():
 	print("Hello World")
-	wb = openpyxl.load_workbook('Forum_DB.xlsx')
-	print(type(wb))
-	current = wb.get_active_sheet()
+
 	#print(current.cell(row = 2, column = 3).value)
 	get_date()
 	#getting the due date
+
 def get_date():
-	wb = openpyxl.load_workbook('Forum_DB.xlsx')
-	print(type(wb))
-	current = wb.get_active_sheet()
+	wb = openpyxl.load_workbook(wb_fileName)
+	print('WB type:',type(wb))
+	current = wb.active
+	
 	for i in range(2, 8, 1):
 		temp_date = (current.cell(row = i, column = 3).value)
-		print('1')
-		print(temp_date)
-		print(type(temp_date))
-		due_date = datetime.strftime(temp_date, '%d/%m/%y') - datetime.timedelta(days=1)
+		print('temp date:',temp_date,'temp date',type(temp_date))
+		due_date = datetime.strptime(str(temp_date), '%y/%m/%d %H:%M:%S'%y/%m/%d %H:%M:%S'') - datetime.timedelta(days=1)
 		print(due_date,i)
 		check_date(due_date,i)
 	return due_date
