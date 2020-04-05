@@ -29,9 +29,9 @@ def send_notification(due_date, noOfDays, phoneNum):
 	client = Client(config.account_sid, config.auth_token)
 	#client = Client(account_sid, auth_token)
 	if noOfDays >= 0:
-		msg = "Kindly note that your subcription expires on " + str(due_date.date()) +", Kindly renew."# + "\nPhone: " + phoneNum + " Trillo Test"
+		msg = "Kindly note that your subcription expires on " + due_date +", Kindly renew." + "\nPhone: " + phoneNum # + "\nPhone: " + phoneNum + " Trillo Test"
 	else:
-		msg = "Kindly note that your subcription has already expired on " + str(due_date.date()) +", Kindly renew."# + "\nPhone: " + phoneNum + " Trillo Test"
+		msg = "Kindly note that your subcription has already expired  " + (-1 *(due_date0)) +" ago, Kindly renew."# + "\nPhone: " + phoneNum + " Trillo Test"
 
 	smsMessageResponse = client.messages.create(
                      body=msg,
@@ -52,7 +52,6 @@ def get_date(wb):
 		ndays = (today - payment_date).days
 		#print('Due Date: ', due_date)
 		#print('days: ', ndays)
-
 		phoneNum = str(current.cell(row = i, column = PhoneNumCol).value)
 		Membership_type = str(current.cell(row = i, column = MembershipCol).value)
 		if(Membership_type == 'Annual'):
