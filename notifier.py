@@ -3,18 +3,18 @@ import openpyxl
  #Create a file called config.py and add acesss token in thew same dir, it will be ignored by git by .gitignore
 import config
 import datetime
+from twilio.rest import Client
 from openpyxl import Workbook
 from datetime import datetime, timedelta, date
 
 wb_fileName = 'Forum_DB.xlsx'
-
 #In the First
 def main():
 	wb = Workbook()
 	sheet = wb.active
 	wb = openpyxl.load_workbook(wb_fileName)
 	get_date(wb)
-	print('From Config: ', config.access_token)
+	print('From Config: ', config.account_sid, ' ', config.auth_token)
 
 #Send Notifications
 #def send_notification(due_date, noOfDays, phoneNum):
@@ -25,10 +25,21 @@ def main():
 
 #Send Notifications
 def send_notification(due_date, noOfDays, phoneNum):
+	countryCode = '+91'
+	client = Client(config.account_sid, config.auth_token)
+	#client = Client(account_sid, auth_token)
 	if noOfDays >= 0:
-		msg = "Kindly note that your subcription expires on " + due_date +", Kindly renew." + "\nPhone: " + phoneNum
+		msg = "Kindly note that your subcription expires on " + str(due_date.date()) +", Kindly renew."# + "\nPhone: " + phoneNum + " Trillo Test"
 	else:
-		print(msg)
+		msg = "Kindly note that your subcription has already expired on " + str(due_date.date()) +", Kindly renew."# + "\nPhone: " + phoneNum + " Trillo Test"
+
+	smsMessageResponse = client.messages.create(
+                     body=msg,
+                     from_ = config.twilloPhnNum,
+                     to = countryCode + phoneNum
+                 )
+	print(smsMessageResponse.sid)
+
 def get_date(wb):
 	StartRow, EndRow, DueDateCol, PhoneNumCol, MembershipCol = 2, 8, 3, 4, 6
 	due_date = 0 
