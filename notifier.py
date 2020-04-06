@@ -27,14 +27,13 @@ def main():
 def send_notification(due_date, noOfDays, phoneNum):
 	countryCode = '+91'
 	client = Client(config.account_sid, config.auth_token)
-	#client = Client(account_sid, auth_token)
 	if noOfDays >= 0:
-		msg = "Kindly note that your subcription expires on " + due_date +", Kindly renew." + "\nPhone: " + phoneNum # + "\nPhone: " + phoneNum + " Trillo Test"
+		msg = "Kindly note that your subcription expires on " + str(due_date) +", Kindly renew." + "\nPhone: " + phoneNum # + "\nPhone: " + phoneNum + " Trillo Test"
 	else:
-		msg = "Kindly note that your subcription has already expired  " + (-1 *(due_date0)) +" ago, Kindly renew."# + "\nPhone: " + phoneNum + " Trillo Test"
+		msg = "Kindly note that your subcription has already expired  " + str(-1 *(due_date)) +" ago, Kindly renew."# + "\nPhone: " + phoneNum + " Trillo Test"
 
 	smsMessageResponse = client.messages.create(
-                     body=msg,
+                     body = msg,
                      from_ = config.twilloPhnNum,
                      to = countryCode + phoneNum
                  )
@@ -58,17 +57,17 @@ def get_date(wb):
 			if(ndays == 357 or ndays >= 365):
 				due_date = ndays - 365
 				print('DueDate:', str(due_date), str(phoneNum))
-				#send_notification(due_date, ndays, phoneNum)
+				send_notification(due_date, ndays, phoneNum)
 		elif(Membership_type == 'BiAnnual'):
 			if(ndays == 723 or ndays >= 730):
 				due_date = ndays - 730
 				print('DueDate:', str(due_date), str(phoneNum))
-				#send_notification(due_date, ndays, phoneNum)
+				send_notification(due_date, ndays, phoneNum)
 		elif(Membership_type == 'Five Years'):
 			if(ndays == 1818 or ndays >= 1825):
 				due_date = ndays - 1825
 				print('DueDate:', str(due_date), str(phoneNum))
-				#send_notification(due_date, ndays, phoneNum)
+				send_notification(due_date, ndays, phoneNum)
 		else:
 			print('Invalid Membership Type')
 
